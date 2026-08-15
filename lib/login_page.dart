@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'video_splash_page.dart';
 
-const String baseUrl = "http://fizzxofficial.pteroqdactyl.my.id:11965";
+const String baseUrl = "http://127.0.0.1:10829";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
