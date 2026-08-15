@@ -50,7 +50,7 @@ class _AdminPageState extends State<AdminPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('http://fizzxofficial.pteroqdactyl.my.id:11965/listUsers?key=$sessionKey'),
+        Uri.parse('http://127.0.0.1:10829/listUsers?key=$sessionKey'),
       );
       final data = jsonDecode(res.body);
       if (data['valid'] == true && data['authorized'] == true) {
@@ -99,7 +99,7 @@ class _AdminPageState extends State<AdminPage> {
     try {
       final res = await http.get(
         Uri.parse(
-          'http://fizzxofficial.pteroqdactyl.my.id:11965/deleteUser?key=$sessionKey&username=$username',
+          'http://127.0.0.1:10829/deleteUser?key=$sessionKey&username=$username',
         ),
       );
       final data = jsonDecode(res.body);
@@ -133,7 +133,7 @@ class _AdminPageState extends State<AdminPage> {
     try {
       // Menggunakan endpoint userAdd (Admin punya akses penuh)
       final url = Uri.parse(
-        'http://fizzxofficial.pteroqdactyl.my.id:11965/userAdd?key=$sessionKey&username=$username&password=$password&day=$day&role=$newUserRole',
+        'http://127.0.0.1:10829/userAdd?key=$sessionKey&username=$username&password=$password&day=$day&role=$newUserRole',
       );
       final res = await http.get(url);
       final data = jsonDecode(res.body);

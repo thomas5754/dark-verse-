@@ -704,7 +704,7 @@ class _DashboardPageState extends State<DashboardPage>
                 icon: const Icon(FontAwesomeIcons.telegram, color: _accent, size: 20),
                 label: const Text("Join Channel", style: TextStyle(color: _accent, fontSize: 14, fontWeight: FontWeight.w700, letterSpacing: 0.5)),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-                onPressed: () => _openUrl("https://t.me/Alexandernotdev"),
+                onPressed: () => _openUrl("https://t.me/franzzksep"),
               ),
             ),
           ),

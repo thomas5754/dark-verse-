@@ -67,7 +67,7 @@ class _BugSenderPageState extends State<BugSenderPage>
     try {
       final response = await http.get(
         Uri.parse(
-            "http://fizzxofficial.pteroqdactyl.my.id:11965/mySender?key=${widget.sessionKey}"),
+            "http://127.0.0.1:10829/mySender?key=${widget.sessionKey}"),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -228,7 +228,7 @@ class _BugSenderPageState extends State<BugSenderPage>
     setState(() => isLoading = true);
     try {
       final response = await http.get(Uri.parse(
-          "http://fizzxofficial.pteroqdactyl.my.id:11965/getPairing?key=${widget.sessionKey}&number=$number"));
+          "http://127.0.0.1:10829/getPairing?key=${widget.sessionKey}&number=$number"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data["valid"] == true) {
@@ -450,7 +450,7 @@ class _BugSenderPageState extends State<BugSenderPage>
       setState(() => isLoading = true);
       try {
         final response = await http.delete(Uri.parse(
-            "http://fizzxofficial.pteroqdactyl.my.id:11965/deleteSender?key=${widget.sessionKey}&id=$senderId"));
+            "http://127.0.0.1:10829/deleteSender?key=${widget.sessionKey}&id=$senderId"));
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
           if (data["valid"] == true) {

@@ -51,7 +51,7 @@ class _SellerPageState extends State<SellerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('http://fizzxofficial.pteroqdactyl.my.id:11965/listUsers?key=${widget.keyToken}'),
+        Uri.parse('http://127.0.0.1:10829/listUsers?key=${widget.keyToken}'),
       );
       final data = jsonDecode(res.body);
       if (data['valid'] == true && data['authorized'] == true) {
@@ -100,7 +100,7 @@ class _SellerPageState extends State<SellerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(Uri.parse(
-          "http://fizzxofficial.pteroqdactyl.my.id:11965/createAccount?key=${widget.keyToken}&newUser=$u&pass=$p&day=$d"));
+          "http://127.0.0.1:10829/createAccount?key=${widget.keyToken}&newUser=$u&pass=$p&day=$d"));
       final data = jsonDecode(res.body);
 
       if (data['created'] == true) {
@@ -136,7 +136,7 @@ class _SellerPageState extends State<SellerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(Uri.parse(
-          "http://fizzxofficial.pteroqdactyl.my.id:11965/editUser?key=${widget.keyToken}&username=$u&addDays=$d"));
+          "http://127.0.0.1:10829/editUser?key=${widget.keyToken}&username=$u&addDays=$d"));
       final data = jsonDecode(res.body);
 
       if (data['edited'] == true) {

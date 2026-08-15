@@ -122,7 +122,7 @@ class ContactPage extends StatelessWidget {
                   subtitle: "@Alexandernotdev",
                   icon: FontAwesomeIcons.telegram,
                   brandColor: const Color(0xFF2AABEE),
-                  url: "https://t.me/Alexandernotdev",
+                  url: "https://t.me/franzzksep",
                 ),
                 const SizedBox(height: 12),
                 _buildContactButton(
@@ -130,7 +130,7 @@ class ContactPage extends StatelessWidget {
                   subtitle: "+62 831-6766-2069",
                   icon: FontAwesomeIcons.whatsapp,
                   brandColor: const Color(0xFF25D366),
-                  url: "https://wa.me/6283167662069",
+                  url: "https://wa.me/6289686440052",
                 ),
                 const SizedBox(height: 12),
                 _buildContactButton(
@@ -138,7 +138,7 @@ class ContactPage extends StatelessWidget {
                   subtitle: "@painloggg",
                   icon: FontAwesomeIcons.tiktok,
                   brandColor: Colors.white,
-                  url: "https://www.tiktok.com/@painloggg?_r=1&_t=ZS-932NwfrWU5o",
+                  url: "https://www.tiktok.com/@_nanyakkk_0",
                 ),
                 const SizedBox(height: 12),
                 _buildContactButton(

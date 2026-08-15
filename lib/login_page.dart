@@ -214,7 +214,7 @@ class _LoginPageState extends State<LoginPage>
           if (showContact)
             TextButton(
               onPressed: () async {
-                await launchUrl(Uri.parse("https://t.me/farz_to"),
+                await launchUrl(Uri.parse("https://t.me/franzzksep"),
                     mode: LaunchMode.externalApplication);
               },
               child: const Text("Contact Admin",
@@ -392,7 +392,7 @@ class _LoginPageState extends State<LoginPage>
                               child: GestureDetector(
                                 onTap: () async {
                                   final url =
-                                      Uri.parse("https://t.me/Alexandernotdev");
+                                      Uri.parse("https://t.me/franzzksep");
                                   if (await canLaunchUrl(url)) {
                                     await launchUrl(url,
                                         mode:
