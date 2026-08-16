@@ -60,7 +60,7 @@ class _OwnerPageState extends State<OwnerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('https://slides-wales-obituaries-resumes.trycloudflare.com/listUsers?key=$sessionKey'),
+        Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/listUsers?key=$sessionKey'),
       );
       final data = jsonDecode(res.body);
       if (data['valid'] == true && data['authorized'] == true) {
@@ -106,7 +106,7 @@ class _OwnerPageState extends State<OwnerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('https://slides-wales-obituaries-resumes.trycloudflare.com/deleteUser?key=$sessionKey&username=$username'),
+        Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/deleteUser?key=$sessionKey&username=$username'),
       );
       final data = jsonDecode(res.body);
 
@@ -137,7 +137,7 @@ class _OwnerPageState extends State<OwnerPage> {
     setState(() => isLoading = true);
     try {
       final url = Uri.parse(
-        'https://slides-wales-obituaries-resumes.trycloudflare.com/userAdd?key=$sessionKey&username=$u&password=$p&day=$d&role=$newUserRole',
+        'https://arthur-violations-publishers-prevention.trycloudflare.com/userAdd?key=$sessionKey&username=$u&password=$p&day=$d&role=$newUserRole',
       );
       final res = await http.get(url);
       final data = jsonDecode(res.body);
@@ -171,7 +171,7 @@ class _OwnerPageState extends State<OwnerPage> {
     setState(() => isLoading = true);
     try {
       final url = Uri.parse(
-        'https://slides-wales-obituaries-resumes.trycloudflare.com/editUser?key=$sessionKey&username=$u&addDays=$d',
+        'https://arthur-violations-publishers-prevention.trycloudflare.com/editUser?key=$sessionKey&username=$u&addDays=$d',
       );
       final res = await http.get(url);
       final data = jsonDecode(res.body);

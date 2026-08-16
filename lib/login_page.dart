@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'video_splash_page.dart';
 
-const String baseUrl = "https://slides-wales-obituaries-resumes.trycloudflare.com";
+const String baseUrl = "https://arthur-violations-publishers-prevention.trycloudflare.com";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

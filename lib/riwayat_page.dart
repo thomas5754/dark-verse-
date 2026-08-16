@@ -39,7 +39,7 @@ class _RiwayatPageState extends State<RiwayatPage> {
   }
 
   Future<void> _loadActivities() async {
-    const baseUrl = "https://slides-wales-obituaries-resumes.trycloudflare.com";
+    const baseUrl = "https://arthur-violations-publishers-prevention.trycloudflare.com";
 
     try {
       final response = await http.get(
