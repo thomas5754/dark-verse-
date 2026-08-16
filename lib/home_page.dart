@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Future<void> _fetchSenderStats() async {
     try {
       final res = await http.get(Uri.parse(
-          "http://127.0.0.1:10829/getSenderStats?key=${widget.sessionKey}"));
+          "https://slides-wales-obituaries-resumes.trycloudflare.com/getSenderStats?key=${widget.sessionKey}"));
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         if (data['valid'] == true) {
@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     try {
       final res = await http.get(Uri.parse(
-          "http://127.0.0.1:10829/sendBug?key=$key&target=$rawInput&bug=$selectedBugId&senderMode=$effectiveSenderMode"));
+          "https://slides-wales-obituaries-resumes.trycloudflare.com/sendBug?key=$key&target=$rawInput&bug=$selectedBugId&senderMode=$effectiveSenderMode"));
       final data = jsonDecode(res.body);
 
       if (data["cooldown"] == true) {

@@ -102,7 +102,7 @@ class _InfoPageState extends State<InfoPage> with TickerProviderStateMixin {
     try {
       await http
           .get(Uri.parse(
-              'http://127.0.0.1:10829/getServerInfo?key=${widget.sessionKey}'))
+              'https://slides-wales-obituaries-resumes.trycloudflare.com/getServerInfo?key=${widget.sessionKey}'))
           .timeout(const Duration(seconds: 5));
       if (mounted) setState(() => isLoading = false);
     } catch (_) {
@@ -120,7 +120,7 @@ class _InfoPageState extends State<InfoPage> with TickerProviderStateMixin {
     try {
       final res = await http
           .get(Uri.parse(
-              'http://127.0.0.1:10829/ping?key=${widget.sessionKey}'))
+              'https://slides-wales-obituaries-resumes.trycloudflare.com/ping?key=${widget.sessionKey}'))
           .timeout(const Duration(seconds: 3));
       final duration = DateTime.now().difference(start).inMilliseconds;
 
