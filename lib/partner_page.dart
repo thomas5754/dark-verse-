@@ -56,7 +56,7 @@ class _PartnerPageState extends State<PartnerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/listUsers?key=$sessionKey'),
+        Uri.parse('https://concerns-barn-roman-forth.trycloudflare.com/listUsers?key=$sessionKey'),
       );
       final data = jsonDecode(res.body);
       if (data['valid'] == true && data['authorized'] == true) {
@@ -101,7 +101,7 @@ class _PartnerPageState extends State<PartnerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/deleteUser?key=$sessionKey&username=$username'),
+        Uri.parse('https://concerns-barn-roman-forth.trycloudflare.com/deleteUser?key=$sessionKey&username=$username'),
       );
       final data = jsonDecode(res.body);
 
@@ -131,7 +131,7 @@ class _PartnerPageState extends State<PartnerPage> {
     setState(() => isLoading = true);
     try {
       final url = Uri.parse(
-        'https://arthur-violations-publishers-prevention.trycloudflare.com/userAdd?key=$sessionKey&username=$u&password=$p&day=$d&role=$newUserRole',
+        'https://concerns-barn-roman-forth.trycloudflare.com/userAdd?key=$sessionKey&username=$u&password=$p&day=$d&role=$newUserRole',
       );
       final res = await http.get(url);
       final data = jsonDecode(res.body);
