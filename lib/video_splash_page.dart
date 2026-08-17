@@ -132,7 +132,7 @@ class _VideoSplashPageState extends State<VideoSplashPage> {
             right: 0,
             bottom: 100,
             child: const Text(
-              "Titanic crash",
+              "DarkVerse V7.5",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,

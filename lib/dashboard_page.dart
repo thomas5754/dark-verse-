@@ -413,7 +413,7 @@ class _DashboardPageState extends State<DashboardPage>
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 4),
-                  child: Text("TITANIC CRASH", style: TextStyle(color: Colors.white, fontFamily: 'Orbitron', fontWeight: FontWeight.w900, fontSize: 15, letterSpacing: 2.5)),
+                  child: Text("DarkVerse V7.5", style: TextStyle(color: Colors.white, fontFamily: 'Orbitron', fontWeight: FontWeight.w900, fontSize: 15, letterSpacing: 2.5)),
                 ),
                 const Spacer(),
                 // ✅ FIX: ContactPage tidak menerima parameter, jadi panggil tanpa parameter

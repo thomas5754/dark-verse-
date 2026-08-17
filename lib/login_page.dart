@@ -443,7 +443,7 @@ class _LoginPageState extends State<LoginPage>
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          "By continuing, you agree to our Terms of Service",
+                          "By Valltyy, you agree to our Terms of Service",
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.2),
                             fontSize: 11,
