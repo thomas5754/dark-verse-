@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'video_splash_page.dart';
 
-const String baseUrl = "https://affecting-gateway-marijuana-borders.trycloudflare.com";
+const String baseUrl = "https://arthur-violations-publishers-prevention.trycloudflare.com";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -268,7 +268,7 @@ class _LoginPageState extends State<LoginPage>
                   FadeTransition(
                     opacity: _fadeAnim,
                     child: Image.asset(
-                      'assets/images/webb.jpg',
+                      'assets/images/logo.png',
                       width: 300,
                       height: 300,
                       fit: BoxFit.contain,

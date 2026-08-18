@@ -19,7 +19,7 @@ class AttackPanel extends StatefulWidget {
 class _AttackPanelState extends State<AttackPanel> with TickerProviderStateMixin {
   final targetController = TextEditingController();
   final portController = TextEditingController();
-  final String baseUrl = "https://affecting-gateway-marijuana-borders.trycloudflare.com";
+  final String baseUrl = "https://arthur-violations-publishers-prevention.trycloudflare.com";
   late AnimationController _controller;
   String selectedDoosId = "";
   double attackDuration = 60;
@@ -128,7 +128,7 @@ class _AttackPanelState extends State<AttackPanel> with TickerProviderStateMixin
                 opacity: Tween(begin: 0.5, end: 1.0).animate(_controller),
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/images/webb.jpg',
+                    'assets/images/logo.png',
                     width: 120,
                     height: 120,
                     fit: BoxFit.cover,

@@ -32,7 +32,7 @@ class _ManageServerPageState extends State<ManageServerPage> {
 
   Future<void> _fetchVpsList() async {
     setState(() => isLoading = true);
-    final uri = Uri.parse('https://affecting-gateway-marijuana-borders.trycloudflare.com/myServer?key=${widget.keyToken}');
+    final uri = Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/myServer?key=${widget.keyToken}');
     try {
       final res = await http.get(uri);
       final data = jsonDecode(res.body);
@@ -55,7 +55,7 @@ class _ManageServerPageState extends State<ManageServerPage> {
       return;
     }
 
-    final uri = Uri.parse('https://affecting-gateway-marijuana-borders.trycloudflare.com/addServer');
+    final uri = Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/addServer');
     try {
       final res = await http.post(uri, body: {
         'key': widget.keyToken,
@@ -78,7 +78,7 @@ class _ManageServerPageState extends State<ManageServerPage> {
   }
 
   Future<void> _deleteVps(String host) async {
-    final uri = Uri.parse('https://affecting-gateway-marijuana-borders.trycloudflare.com/delServer');
+    final uri = Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/delServer');
     try {
       final res = await http.post(uri, body: {
         'key': widget.keyToken,

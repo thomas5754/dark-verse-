@@ -3,28 +3,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class OwnerPage extends StatefulWidget {
-  final String sessionKey;
-  final String username;
+class SellerPage extends StatefulWidget {
+  final String keyToken; // Sesuaikan nama parameter dengan snippet backend
 
-  const OwnerPage({
-    super.key,
-    required this.sessionKey,
-    required this.username,
-  });
+  const SellerPage({super.key, required this.keyToken});
 
   @override
-  State<OwnerPage> createState() => _OwnerPageState();
+  State<SellerPage> createState() => _SellerPageState();
 }
 
-class _OwnerPageState extends State<OwnerPage> {
-  late String sessionKey;
+class _SellerPageState extends State<SellerPage> {
   List<dynamic> fullUserList = [];
   List<dynamic> filteredList = [];
 
-  // Role Options untuk Owner: Moderator, Partner, Admin, Reseller, VIP, Member
-  final List<String> roleOptions = ['moderator', 'partner', 'admin', 'reseller', 'vip', 'member'];
-  String selectedRole = 'member'; 
+  // Role Options untuk List
+  final List<String> roleOptions = ['member'];
+  String selectedRole = 'member';
 
   int currentPage = 1;
   int itemsPerPage = 25;
@@ -33,26 +27,23 @@ class _OwnerPageState extends State<OwnerPage> {
   final createUsernameController = TextEditingController();
   final createPasswordController = TextEditingController();
   final createDayController = TextEditingController();
-  final deleteController = TextEditingController();
+
   final editUsernameController = TextEditingController();
   final editDayController = TextEditingController();
 
-  String newUserRole = 'member';
   bool isLoading = false;
 
   // --- TEMA WARNA HITAM PUTIH ---
-  final Color bgDark = const Color(0xFF00050B);
-  final Color primaryPurple = const Color(0xFF102A43);
-  final Color accentPurple = const Color(0xFF00E5FF);
+  final Color bgDark = Colors.black;
+  final Color primaryPurple = Colors.grey.shade800;
+  final Color accentPurple = Colors.white;
   final Color primaryWhite = Colors.white;
-  final Color textGrey = const Color(0xFF78909C);
-  final Color cardGlass = const Color(0xFF00E5FF).withOpacity(0.05);
-  final Color borderGlass = const Color(0xFF00E5FF).withOpacity(0.1);
+  final Color cardGlass = Colors.white.withOpacity(0.05);
+  final Color borderGlass = Colors.white.withOpacity(0.1);
 
   @override
   void initState() {
     super.initState();
-    sessionKey = widget.sessionKey;
     _fetchUsers();
   }
 
@@ -60,7 +51,7 @@ class _OwnerPageState extends State<OwnerPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('https://affecting-gateway-marijuana-borders.trycloudflare.com/listUsers?key=$sessionKey'),
+        Uri.parse('https://arthur-violations-publishers-prevention.trycloudflare.com/listUsers?key=${widget.keyToken}'),
       );
       final data = jsonDecode(res.body);
       if (data['valid'] == true && data['authorized'] == true) {
@@ -95,35 +86,7 @@ class _OwnerPageState extends State<OwnerPage> {
 
   int get totalPages => (filteredList.length / itemsPerPage).ceil();
 
-  // --- DELETE USER ---
-  Future<void> _deleteUser() async {
-    final username = deleteController.text.trim();
-    if (username.isEmpty) {
-      _alert("Peringatan", "Masukkan username yang ingin dihapus.");
-      return;
-    }
-
-    setState(() => isLoading = true);
-    try {
-      final res = await http.get(
-        Uri.parse('https://affecting-gateway-marijuana-borders.trycloudflare.com/deleteUser?key=$sessionKey&username=$username'),
-      );
-      final data = jsonDecode(res.body);
-
-      if (data['deleted'] == true) {
-        _alert("Sukses", "User berhasil dihapus.");
-        deleteController.clear();
-        _fetchUsers();
-      } else {
-        _alert("Gagal", data['message'] ?? 'Gagal menghapus user.');
-      }
-    } catch (_) {
-      _alert("Error", "Gagal menghubungi server.");
-    }
-    setState(() => isLoading = false);
-  }
-
-  // --- CREATE ACCOUNT (Owner Logic) ---
+  // --- FITUR 1: CREATE ACCOUNT (SESUAI SNIPPET) ---
   Future<void> _createAccount() async {
     final u = createUsernameController.text.trim();
     final p = createPasswordController.text.trim();
@@ -136,29 +99,31 @@ class _OwnerPageState extends State<OwnerPage> {
 
     setState(() => isLoading = true);
     try {
-      final url = Uri.parse(
-        'https://affecting-gateway-marijuana-borders.trycloudflare.com/userAdd?key=$sessionKey&username=$u&password=$p&day=$d&role=$newUserRole',
-      );
-      final res = await http.get(url);
+      final res = await http.get(Uri.parse(
+          "https://arthur-violations-publishers-prevention.trycloudflare.com/createAccount?key=${widget.keyToken}&newUser=$u&pass=$p&day=$d"));
       final data = jsonDecode(res.body);
 
       if (data['created'] == true) {
-        _alert("Sukses", "Akun berhasil dibuat sebagai ${newUserRole.toUpperCase()}.");
+        _alert("Sukses", "✅ Akun berhasil dibuat!");
         createUsernameController.clear();
         createPasswordController.clear();
         createDayController.clear();
-        newUserRole = 'member';
         _fetchUsers();
       } else {
-        _alert("Gagal", data['message'] ?? 'Gagal membuat akun.');
+        // Cek error khusus invalidDay dari backend
+        String msg = data['message'] ?? 'Gagal membuat akun.';
+        if (data['invalidDay'] == true) {
+          msg += " (Max 30 hari untuk Reseller)";
+        }
+        _alert("Gagal", "❌ $msg");
       }
-    } catch (_) {
-      _alert("Error", "Gagal menghubungi server.");
+    } catch (e) {
+      _alert("Error", "❌ Koneksi error: $e");
     }
     setState(() => isLoading = false);
   }
 
-  // --- EDIT/EXTEND ACCOUNT ---
+  // --- FITUR 2: EDIT USER / ADD DAYS (SESUAI SNIPPET) ---
   Future<void> _editUser() async {
     final u = editUsernameController.text.trim();
     final d = editDayController.text.trim();
@@ -170,22 +135,21 @@ class _OwnerPageState extends State<OwnerPage> {
 
     setState(() => isLoading = true);
     try {
-      final url = Uri.parse(
-        'https://affecting-gateway-marijuana-borders.trycloudflare.com/editUser?key=$sessionKey&username=$u&addDays=$d',
-      );
-      final res = await http.get(url);
+      final res = await http.get(Uri.parse(
+          "https://arthur-violations-publishers-prevention.trycloudflare.com/editUser?key=${widget.keyToken}&username=$u&addDays=$d"));
       final data = jsonDecode(res.body);
 
       if (data['edited'] == true) {
-        _alert("Sukses", "Durasi berhasil diperbarui.");
+        _alert("Sukses", "✅ Durasi berhasil diperbarui.");
         editUsernameController.clear();
         editDayController.clear();
-        _fetchUsers();
+        _fetchUsers(); // Refresh list agar tanggal expired berubah
       } else {
-        _alert("Gagal", data['message'] ?? 'Gagal mengubah durasi.');
+        // Cek error spesifik (misal user tidak member atau tidak ditemukan)
+        _alert("Gagal", "❌ ${data['message'] ?? 'Gagal mengubah durasi.'}");
       }
-    } catch (_) {
-      _alert("Error", "Gagal menghubungi server.");
+    } catch (e) {
+      _alert("Error", "❌ Koneksi error: $e");
     }
     setState(() => isLoading = false);
   }
@@ -206,7 +170,7 @@ class _OwnerPageState extends State<OwnerPage> {
             Text(title, style: TextStyle(color: primaryWhite)),
           ],
         ),
-        content: Text(message, style: TextStyle(color: textGrey)),
+        content: Text(message, style: TextStyle(color: Colors.white70)),
         actions: [
           Center(
             child: Container(
@@ -216,10 +180,7 @@ class _OwnerPageState extends State<OwnerPage> {
               ),
               child: TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "OK",
-                  style: TextStyle(color: primaryWhite, fontWeight: FontWeight.bold),
-                ),
+                child: Text("OK", style: TextStyle(color: primaryWhite, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
@@ -233,15 +194,18 @@ class _OwnerPageState extends State<OwnerPage> {
     required TextEditingController controller,
     required IconData icon,
     TextInputType type = TextInputType.text,
+    String hint = "",
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 15),
       child: TextField(
         controller: controller,
         keyboardType: type,
         style: TextStyle(color: primaryWhite),
         decoration: InputDecoration(
           labelText: label,
+          hintText: hint,
+          hintStyle: TextStyle(color: Colors.white38),
           labelStyle: TextStyle(color: accentPurple),
           prefixIcon: Icon(icon, color: accentPurple),
           filled: true,
@@ -309,7 +273,7 @@ class _OwnerPageState extends State<OwnerPage> {
               ),
             ],
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 20),
           ...children,
         ],
       ),
@@ -342,74 +306,14 @@ class _OwnerPageState extends State<OwnerPage> {
               children: [
                 Text(
                   user['username'],
-                  style: TextStyle(
-                    color: primaryWhite,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: primaryWhite, fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 SizedBox(height: 4),
                 Text(
                   "ROLE: ${user['role'].toString().toUpperCase()} | EXP: ${user['expiredDate']}",
-                  style: TextStyle(color: textGrey, fontSize: 13),
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
                 ),
               ],
-            ),
-          ),
-          // Tombol Delete
-          Container(
-            decoration: BoxDecoration(
-              color: accentPurple.withOpacity(0.1),
-              shape: BoxShape.circle,
-              border: Border.all(color: accentPurple.withOpacity(0.3)),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.delete_outline, color: accentPurple),
-              onPressed: () async {
-                final confirm = await showDialog<bool>(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    backgroundColor: bgDark,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(color: accentPurple.withOpacity(0.3)),
-                    ),
-                    title: Text("Konfirmasi", style: TextStyle(color: primaryWhite)),
-                    content: Text("Hapus user ini?", style: TextStyle(color: textGrey)),
-                    actions: [
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                           Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [primaryPurple, accentPurple]),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: Text("Batal", style: TextStyle(color: primaryWhite)),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [accentPurple, primaryPurple]),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: TextButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                child: Text("Hapus", style: TextStyle(color: primaryWhite)),
-                              ),
-                            ),
-                        ],
-                      )
-                    ],
-                  ),
-                );
-                if (confirm == true) {
-                  deleteController.text = user['username'];
-                  _deleteUser();
-                }
-              },
             ),
           ),
         ],
@@ -459,86 +363,28 @@ class _OwnerPageState extends State<OwnerPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Header
-                Icon(Icons.workspace_premium, color: accentPurple, size: 50),
+                Icon(Icons.storefront, color: accentPurple, size: 50),
                 SizedBox(height: 10),
                 Text(
-                  "OWNER DASHBOARD",
+                  "SELLER DASHBOARD",
                   style: TextStyle(
                     color: primaryWhite,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Orbitron',
                     letterSpacing: 2,
-                    shadows: [
-                      Shadow(
-                        color: primaryPurple.withOpacity(0.8),
-                        blurRadius: 10,
-                      ),
-                    ],
+                    shadows: [Shadow(color: primaryPurple.withOpacity(0.8), blurRadius: 10)],
                   ),
                 ),
                 SizedBox(height: 40),
 
-                // SECTION 1: DELETE USER
+                // SECTION 1: CREATE ACCOUNT
                 _buildGlassCard(
-                  title: "DELETE USER",
-                  icon: FontAwesomeIcons.userSlash,
-                  children: [
-                    _buildInput(
-                      label: "Username Target",
-                      controller: deleteController,
-                      icon: FontAwesomeIcons.user,
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [accentPurple, primaryPurple]),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: primaryPurple.withOpacity(0.3),
-                            blurRadius: 10,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: ElevatedButton(
-                        onPressed: isLoading ? null : _deleteUser,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.delete, size: 18, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              "DELETE ACCOUNT",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                // SECTION 2: CREATE ACCOUNT
-                _buildGlassCard(
-                  title: "CREATE ACCOUNT",
+                  title: "CREATE MEMBER",
                   icon: FontAwesomeIcons.userPlus,
                   children: [
                     _buildInput(
-                      label: "Username",
+                      label: "Username Baru",
                       controller: createUsernameController,
                       icon: FontAwesomeIcons.user,
                     ),
@@ -552,42 +398,16 @@ class _OwnerPageState extends State<OwnerPage> {
                       controller: createDayController,
                       icon: FontAwesomeIcons.calendarDay,
                       type: TextInputType.number,
+                      hint: "Maksimal 30 hari",
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF00050B).withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: borderGlass),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: newUserRole,
-                          dropdownColor: bgDark,
-                          style: TextStyle(color: primaryWhite),
-                          items: roleOptions.map((role) {
-                            return DropdownMenuItem(
-                              value: role,
-                              child: Text(role.toUpperCase()),
-                            );
-                          }).toList(),
-                          onChanged: (val) =>
-                              setState(() => newUserRole = val ?? 'member'),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Container(
                       height: 50,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(colors: [primaryPurple, accentPurple]),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
-                          BoxShadow(
-                            color: primaryPurple.withOpacity(0.4),
-                            blurRadius: 10,
-                            offset: Offset(0, 4),
-                          ),
+                          BoxShadow(color: primaryPurple.withOpacity(0.4), blurRadius: 10, offset: Offset(0, 4))
                         ],
                       ),
                       child: ElevatedButton(
@@ -595,33 +415,17 @@ class _OwnerPageState extends State<OwnerPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
                         child: isLoading
-                            ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: primaryWhite,
-                          ),
-                        )
-                            : Text(
-                          "CREATE ACCOUNT",
-                          style: TextStyle(
-                            color: primaryWhite,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
-                        ),
+                            ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: primaryWhite))
+                            : Text("CREATE ACCOUNT", style: TextStyle(color: primaryWhite, fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ],
                 ),
 
-                // SECTION 3: EXTEND DURATION
+                // SECTION 2: EDIT / EXTEND DURATION
                 _buildGlassCard(
                   title: "EXTEND DURATION",
                   icon: FontAwesomeIcons.clock,
@@ -630,12 +434,14 @@ class _OwnerPageState extends State<OwnerPage> {
                       label: "Username Target",
                       controller: editUsernameController,
                       icon: FontAwesomeIcons.userEdit,
+                      hint: "Username member yang ingin diperpanjang",
                     ),
                     _buildInput(
                       label: "Tambah Hari",
                       controller: editDayController,
                       icon: FontAwesomeIcons.calendarPlus,
                       type: TextInputType.number,
+                      hint: "Maksimal 30 hari",
                     ),
                     SizedBox(height: 10),
                     Container(
@@ -644,11 +450,7 @@ class _OwnerPageState extends State<OwnerPage> {
                         gradient: LinearGradient(colors: [Colors.blue, Colors.lightBlueAccent]),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.4),
-                            blurRadius: 10,
-                            offset: Offset(0, 4),
-                          ),
+                          BoxShadow(color: Colors.blue.withOpacity(0.4), blurRadius: 10, offset: Offset(0, 4))
                         ],
                       ),
                       child: ElevatedButton(
@@ -656,41 +458,25 @@ class _OwnerPageState extends State<OwnerPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
                         child: isLoading
-                            ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: primaryWhite,
-                          ),
-                        )
-                            : Text(
-                          "ADD DAYS",
-                          style: TextStyle(
-                            color: primaryWhite,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
-                        ),
+                            ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: primaryWhite))
+                            : Text("ADD DAYS", style: TextStyle(color: primaryWhite, fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ],
                 ),
 
-                // SECTION 4: USER LIST
+                // SECTION 3: USER LIST
                 _buildGlassCard(
-                  title: "USER LIST",
+                  title: "MEMBER LIST",
                   icon: FontAwesomeIcons.users,
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF00050B).withOpacity(0.2),
+                        color: Colors.black.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: borderGlass),
                       ),
@@ -700,10 +486,7 @@ class _OwnerPageState extends State<OwnerPage> {
                           dropdownColor: bgDark,
                           style: TextStyle(color: primaryWhite),
                           items: roleOptions.map((role) {
-                            return DropdownMenuItem(
-                              value: role,
-                              child: Text(role.toUpperCase()),
-                            );
+                            return DropdownMenuItem(value: role, child: Text(role.toUpperCase()));
                           }).toList(),
                           onChanged: (val) {
                             if (val != null) {
@@ -716,16 +499,10 @@ class _OwnerPageState extends State<OwnerPage> {
                     ),
                     SizedBox(height: 20),
                     isLoading
-                        ? Center(
-                      child: CircularProgressIndicator(
-                        color: accentPurple,
-                      ),
-                    )
+                        ? Center(child: CircularProgressIndicator(color: accentPurple))
                         : Column(
                       children: [
-                        ..._getCurrentPageData()
-                            .map((u) => _buildUserItem(u))
-                            .toList(),
+                        ..._getCurrentPageData().map((u) => _buildUserItem(u)).toList(),
                         SizedBox(height: 20),
                         _buildPagination(),
                       ],

@@ -102,7 +102,7 @@ class _InfoPageState extends State<InfoPage> with TickerProviderStateMixin {
     try {
       await http
           .get(Uri.parse(
-              'https://affecting-gateway-marijuana-borders.trycloudflare.com/getServerInfo?key=${widget.sessionKey}'))
+              'https://arthur-violations-publishers-prevention.trycloudflare.com/getServerInfo?key=${widget.sessionKey}'))
           .timeout(const Duration(seconds: 5));
       if (mounted) setState(() => isLoading = false);
     } catch (_) {
@@ -120,7 +120,7 @@ class _InfoPageState extends State<InfoPage> with TickerProviderStateMixin {
     try {
       final res = await http
           .get(Uri.parse(
-              'https://affecting-gateway-marijuana-borders.trycloudflare.com/ping?key=${widget.sessionKey}'))
+              'https://arthur-violations-publishers-prevention.trycloudflare.com/ping?key=${widget.sessionKey}'))
           .timeout(const Duration(seconds: 3));
       final duration = DateTime.now().difference(start).inMilliseconds;
 

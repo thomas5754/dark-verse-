@@ -50,7 +50,7 @@ class _AdminPageState extends State<AdminPage> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('https://concerns-barn-roman-forth.trycloudflare.com/listUsers?key=$sessionKey'),
+        Uri.parse('https://affecting-gateway-marijuana-borders.trycloudflare.com/listUsers?key=$sessionKey'),
       );
       final data = jsonDecode(res.body);
       if (data['valid'] == true && data['authorized'] == true) {
@@ -99,7 +99,7 @@ class _AdminPageState extends State<AdminPage> {
     try {
       final res = await http.get(
         Uri.parse(
-          'https://concerns-barn-roman-forth.trycloudflare.com/deleteUser?key=$sessionKey&username=$username',
+          'https://affecting-gateway-marijuana-borders.trycloudflare.com/deleteUser?key=$sessionKey&username=$username',
         ),
       );
       final data = jsonDecode(res.body);
@@ -133,7 +133,7 @@ class _AdminPageState extends State<AdminPage> {
     try {
       // Menggunakan endpoint userAdd (Admin punya akses penuh)
       final url = Uri.parse(
-        'https://concerns-barn-roman-forth.trycloudflare.com/userAdd?key=$sessionKey&username=$username&password=$password&day=$day&role=$newUserRole',
+        'https://affecting-gateway-marijuana-borders.trycloudflare.com/userAdd?key=$sessionKey&username=$username&password=$password&day=$day&role=$newUserRole',
       );
       final res = await http.get(url);
       final data = jsonDecode(res.body);
