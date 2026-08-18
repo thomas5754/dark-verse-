@@ -268,7 +268,7 @@ class _LoginPageState extends State<LoginPage>
                   FadeTransition(
                     opacity: _fadeAnim,
                     child: Image.asset(
-                      'assets/images/webb.jpg',
+                      'assets/images/logo.png',
                       width: 300,
                       height: 300,
                       fit: BoxFit.contain,

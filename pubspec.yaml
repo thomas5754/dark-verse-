@@ -48,7 +48,6 @@ flutter:
   assets:
     - assets/images/logo.jpg
     - assets/images/logo.png
-    - assets/images/webb.jpg
     - assets/videos/login.mp4
     - assets/videos/bg_profile.mp4
     - assets/videos/bug.mp4

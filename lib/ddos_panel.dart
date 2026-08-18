@@ -128,7 +128,7 @@ class _AttackPanelState extends State<AttackPanel> with TickerProviderStateMixin
                 opacity: Tween(begin: 0.5, end: 1.0).animate(_controller),
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/images/webb.jpg',
+                    'assets/images/logo.png',
                     width: 120,
                     height: 120,
                     fit: BoxFit.cover,
